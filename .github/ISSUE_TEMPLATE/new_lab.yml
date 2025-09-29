@@ -1,0 +1,53 @@
+name: "🧪 New Lab Submission"
+description: "Suggest a new superconducting quantum computing lab for the map."
+title: "[New Lab] <Lab Name>"
+labels: ["new-lab"]
+
+body:
+  - type: input
+    id: lab_name
+    attributes:
+      label: "Lab Name"
+      placeholder: "Example: Quantum Nano Lab"
+    validations:
+      required: true
+
+  - type: input
+    id: supervisor
+    attributes:
+      label: "Supervisor / PI"
+      placeholder: "Dr. Jane Doe"
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: "Lab Website"
+      placeholder: "https://example.com"
+    validations:
+      required: true
+
+  - type: input
+    id: city
+    attributes:
+      label: "City"
+      placeholder: "Cambridge"
+    validations:
+      required: true
+
+  - type: input
+    id: country
+    attributes:
+      label: "Country"
+      placeholder: "UK"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes / Extra Info"
+      placeholder: "Focuses on transmons, flux qubits, etc."
+    validations:
+      required: false
