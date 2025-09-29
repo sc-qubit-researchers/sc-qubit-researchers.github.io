@@ -1,39 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>Superconducting Quantum Labs Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    #map { height: 90vh; width: 100%; }
-    body { font-family: sans-serif; margin: 0; padding: 0; }
-    .button-container { text-align: center; padding: 10px; }
-    button {
-      padding: 10px 20px;
-      border: none;
+    /* Make map fill the full viewport */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Button overlay */
+    .submit-button {
+      position: absolute;
+      bottom: 20px;        /* distance from bottom */
+      left: 50%;           /* center horizontally */
+      transform: translateX(-50%);
+      z-index: 1000;       /* on top of map */
+    }
+    .submit-button button {
+      padding: 12px 25px;
       background: #2c7be5;
       color: white;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
-    button:hover { background: #1a5bb8; }
+    .submit-button button:hover {
+      background: #1a5bb8;
+    }
   </style>
 </head>
 <body>
-  <div class="button-container">
-    <a href="https://github.com/sc-qubit-researchers/sc-qubit-researchers.github.io/issues/new?template=new_lab.yml" target="_blank">
+
+  <div id="map"></div>
+
+  <!-- Button overlay -->
+  <div class="submit-button">
+    <a href="https://github.com/YOUR-USERNAME/superconducting-labs-map/issues/new?template=new_lab.yml" target="_blank">
       <button>➕ Submit a New Lab</button>
     </a>
   </div>
-  <div id="map"></div>
 
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- PapaParse for CSV parsing -->
   <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
-  <script>
-    // Initialize map
-    const map = L.map('map').setView([20, 0], 2); // World view
 
-    // Add basemap
+  <script>
+    // Initialize the map
+    const map = L.map('map').setView([20, 0], 2);
+
+    // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
