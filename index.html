@@ -93,6 +93,7 @@
             const marker = L.marker([row.Latitude, row.Longitude]).addTo(map);
             marker.bindPopup(`
               <b>${row["Lab Name"]}</b><br>
+              Institution: ${row.Institution}<br>
               PI: ${row.Supervisor}<br>
               <a href="${row.Website}" target="_blank">Website</a><br>
               ${row.City}, ${row.Country}
