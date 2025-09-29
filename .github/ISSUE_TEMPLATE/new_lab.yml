@@ -1,9 +1,18 @@
 name: "🧪 New Lab Submission"
 description: "Suggest a new superconducting quantum computing lab for the map."
-title: "[New Lab] <Lab Name>"
+title: "[New Lab]"
 labels: ["new-lab"]
 
 body:
+
+  - type: input
+    id: institution
+    attributes:
+      label: "Institution"
+      placeholder: "Example: Princeton"
+    validations:
+      required: true
+
   - type: input
     id: lab_name
     attributes:
@@ -24,7 +33,7 @@ body:
     id: website
     attributes:
       label: "Lab Website"
-      placeholder: "https://example.com"
+      placeholder: "https://lab_name.com"
     validations:
       required: true
 
@@ -40,7 +49,7 @@ body:
     id: country
     attributes:
       label: "Country"
-      placeholder: "UK"
+      placeholder: "USA"
     validations:
       required: true
 
@@ -48,6 +57,6 @@ body:
     id: notes
     attributes:
       label: "Notes / Extra Info"
-      placeholder: "Focuses on transmons, flux qubits, etc."
+      placeholder: "Focuses on transmons, fluxonium qubits, etc."
     validations:
       required: false
