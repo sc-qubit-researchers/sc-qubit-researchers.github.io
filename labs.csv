@@ -1,7 +1,7 @@
 Institution, Lab Name,Supervisor,Website,City,Country,Latitude,Longitude,Notes
 Princeton University, Houck Lab, Andrew Houck, https://houcklab.princeton.edu/, Princeton, USA, 40.350854881232166, -74.65044452698166, Transmon qubits
-Gyenis Lab,András Gyenis,https://www.colorado.edu/lab/gyenis/,Boulder,USA,40.00693398,-105.2628855
-Engineering Quantum Systems (EQuS),William Oliver,https://equs.mit.edu/,Cambridge,USA,42.3601773,-71.093696
-McDermott Group,Robert McDermott,https://mcdermottgroup.physics.wisc.edu/,Madison,USA,43.07413471,-89.40497701
-Prober Lab,Daniel E. Prober,https://proberlab.yale.edu/contact,New Haven,USA,41.312774,-72.925136
-Quantum Measurement and Control Laboratory,R. Vijayaraghavan,https://www.tifr.res.in/~quantro/people.html,Mumbai,India,18.90664748,72.80506742
+University of Colorado, Gyenis Lab,András Gyenis,https://www.colorado.edu/lab/gyenis/,Boulder,USA,40.00693398,-105.2628855
+MIT, Engineering Quantum Systems (EQuS),William Oliver,https://equs.mit.edu/,Cambridge,USA,42.3601773,-71.093696
+University of Wisconsin, McDermott Group,Robert McDermott,https://mcdermottgroup.physics.wisc.edu/,Madison,USA,43.07413471,-89.40497701
+Yale University, Prober Lab,Daniel E. Prober,https://proberlab.yale.edu/contact,New Haven,USA,41.312774,-72.925136
+Tata Institute of Fundamental Research, Quantum Measurement and Control Laboratory,R. Vijayaraghavan,https://www.tifr.res.in/~quantro/people.html,Mumbai,India,18.90664748,72.80506742
