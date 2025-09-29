@@ -16,15 +16,20 @@
       width: 100%;
     }
 
-    /* Button overlay */
-    .submit-button {
+    /* Button overlays */
+    .overlay-button {
       position: absolute;
-      bottom: 20px;        /* distance from bottom */
-      left: 50%;           /* center horizontally */
-      transform: translateX(-50%);
-      z-index: 1000;       /* on top of map */
+      bottom: 20px;  /* distance from bottom */
+      z-index: 1000; /* on top of map */
     }
-    .submit-button button {
+    .submit-button {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .download-button {
+      right: 20px; /* place in bottom right corner */
+    }
+    .overlay-button button {
       padding: 12px 25px;
       background: #2c7be5;
       color: white;
@@ -33,8 +38,9 @@
       cursor: pointer;
       font-size: 16px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      margin-left: 5px;
     }
-    .submit-button button:hover {
+    .overlay-button button:hover {
       background: #1a5bb8;
     }
   </style>
@@ -43,10 +49,17 @@
 
   <div id="map"></div>
 
-  <!-- Button overlay -->
-  <div class="submit-button">
+  <!-- Submit Lab Button -->
+  <div class="overlay-button submit-button">
     <a href="https://github.com/YOUR-USERNAME/superconducting-labs-map/issues/new?template=new_lab.yml" target="_blank">
       <button>➕ Submit a New Lab</button>
+    </a>
+  </div>
+
+  <!-- Download CSV Button -->
+  <div class="overlay-button download-button">
+    <a href="labs.csv" download>
+      <button>📥 Download CSV</button>
     </a>
   </div>
 
