@@ -79,15 +79,12 @@
     maxZoom: 19
   }).addTo(map);
 
-
-
-
-
     // Load labs.csv
     Papa.parse("labs.csv", {
       download: true,
       header: true,
       complete: function(results) {
+        console.log(results.data); // <- check what is being read
         results.data.forEach(row => {
           if (row.Latitude && row.Longitude) {
             const marker = L.marker([row.Latitude, row.Longitude]).addTo(map);
