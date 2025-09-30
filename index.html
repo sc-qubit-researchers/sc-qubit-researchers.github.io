@@ -1,34 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Superconducting Quantum Labs Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    /* Make map fill the full viewport */
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: sans-serif;
-    }
-    #map {
-      height: 100%;
-      width: 100%;
-    }
+    html, body { height: 100%; margin: 0; font-family: sans-serif; }
+    #map { height: 100%; width: 100%; }
 
-    /* Button overlays */
-    .overlay-button {
-      position: absolute;
-      bottom: 20px;  /* distance from bottom */
-      z-index: 1000; /* on top of map */
-    }
-    .submit-button {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .download-button {
-      right: 20px; /* place in bottom right corner */
-    }
+    .overlay-button { position: absolute; bottom: 20px; z-index: 1000; }
+    .submit-button { left: 50%; transform: translateX(-50%); }
+    .download-button { right: 20px; }
     .overlay-button button {
       padding: 12px 25px;
       background: #2c7be5;
@@ -37,12 +19,10 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
       margin-left: 5px;
     }
-    .overlay-button button:hover {
-      background: #1a5bb8;
-    }
+    .overlay-button button:hover { background: #1a5bb8; }
   </style>
 </head>
 <body>
@@ -65,45 +45,132 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- OverlappingMarkerSpiderfier plugin -->
+  <!-- OverlappingMarkerSpiderfier (spiderfy overlapping identical coordinates) -->
   <script src="https://unpkg.com/overlapping-marker-spiderfier-leaflet/oms.min.js"></script>
-  <!-- PapaParse for CSV parsing -->
+  <!-- PapaParse -->
   <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
 
   <script>
-    // Initialize the map
+    // --- Utility: safe rounding of coordinates ---
+    function roundCoord(value, decimals = 3) {
+      if (value === undefined || value === null) return null;
+      // trim then parse
+      const num = parseFloat((typeof value === 'string') ? value.trim() : value);
+      if (!isFinite(num)) return null;
+      const factor = Math.pow(10, decimals);
+      return Math.round(num * factor) / factor;
+    }
+
+    // Normalize column keys: trim & remove BOM
+    function normalizeRow(raw) {
+      const row = {};
+      for (const k in raw) {
+        if (!Object.prototype.hasOwnProperty.call(raw, k)) continue;
+        const nk = k.replace(/\ufeff/g, '').trim();
+        const val = raw[k] === undefined || raw[k] === null ? '' : String(raw[k]).trim();
+        row[nk] = val;
+      }
+      return row;
+    }
+
+    // Initialize map
     const map = L.map('map').setView([20, 0], 2);
 
-    // Add OpenStreetMap tiles
+    // Nice English-labeled tiles (Carto Voyager)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 19
     }).addTo(map);
 
-    // Create spiderfier instance
-    const oms = new OverlappingMarkerSpiderfier(map);
+    // Create spiderfier
+    const oms = new OverlappingMarkerSpiderfier(map, {
+      keepSpiderfied: true,
+      nearbyDistance: 20 // pixel threshold for deciding overlaps (default behavior)
+    });
 
-    // Load labs.csv
+    // For auto-fitting to added markers
+    const bounds = L.latLngBounds();
+
+    // Parse CSV and add markers
     Papa.parse("labs.csv", {
       download: true,
       header: true,
+      skipEmptyLines: true,
       complete: function(results) {
-        results.data.forEach(row => {
-          if (row.Latitude && row.Longitude) {
-            const marker = L.marker([row.Latitude, row.Longitude]);
-            marker.bindPopup(`
-              <b>${row["Lab Name"]}</b><br>
-              Institution: ${row.Institution}<br>
-              PI: ${row.Supervisor}<br>
-              <a href="${row.Website}" target="_blank">Website</a><br>
-              ${row.City}, ${row.Country}
-            `);
-            marker.addTo(map);
-            oms.addMarker(marker); // add to spiderfier
+        console.log("CSV rows parsed:", results.data.length);
+        let added = 0;
+
+        results.data.forEach((rawRow, i) => {
+          const row = normalizeRow(rawRow);
+          // Debug: uncomment if you need to inspect row contents
+          // console.log("Row", i, row);
+
+          // read fields using normalized keys
+          const labName = row["Lab Name"] || row["Lab"] || row["LabName"] || "";
+          const institution = row["Institution"] || "";
+          const supervisor = row["Supervisor"] || row["PI"] || row["Supervisor / PI"] || "";
+          const website = row["Website"] || row["Lab Website"] || "";
+          const city = row["City"] || "";
+          const country = row["Country"] || "";
+
+          // Round / parse coordinates (safe)
+          const lat = roundCoord(row["Latitude"], 3);
+          const lon = roundCoord(row["Longitude"], 3);
+
+          if (lat === null || lon === null) {
+            // skip rows without valid numeric coords
+            // console.warn(`Skipping row ${i}: invalid coords`, row["Latitude"], row["Longitude"]);
+            return;
           }
+
+          // create marker with numeric coords
+          const marker = L.marker([lat, lon], { title: labName || institution || "Lab" });
+
+          // popup (safely escape with text content where possible)
+          const safeLab = labName || "(no lab name)";
+          const safeInst = institution || "";
+          const safePI = supervisor || "";
+          const safeWeb = website ? `<a href="${website}" target="_blank" rel="noopener noreferrer">Website</a>` : "";
+          const safePlace = `${city}${city && country ? ", " : ""}${country}`;
+
+          marker.bindPopup(`
+            <b>${safeLab}</b><br>
+            ${safeInst ? `Institution: ${safeInst}<br>` : ""}
+            ${safePI ? `PI: ${safePI}<br>` : ""}
+            ${safeWeb ? `${safeWeb}<br>` : ""}
+            ${safePlace}
+          `);
+
+          marker.addTo(map);
+          oms.addMarker(marker);
+
+          bounds.extend([lat, lon]);
+          added++;
         });
+
+        console.log("Markers added:", added);
+
+        // If we have markers, fit map bounds (with padding)
+        if (bounds.isValid() && added > 0) {
+          try {
+            map.fitBounds(bounds.pad(0.15));
+          } catch (e) {
+            console.warn("fitBounds failed:", e);
+          }
+        }
+      },
+      error: function(err) {
+        console.error("PapaParse error:", err);
       }
+    });
+
+    // (Optional) click behavior: close popup when spider is closed (keeps UX clean)
+    oms.addListener('spiderfy', function(markers) {
+      // do nothing special; spiderfy will separate overlapping markers
+    });
+    oms.addListener('unspiderfy', function(markers) {
+      // nothing special
     });
   </script>
 </body>
