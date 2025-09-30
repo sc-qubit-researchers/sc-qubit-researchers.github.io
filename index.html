@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Superconducting Quantum Labs Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
   <style>
     /* Make map fill the full viewport */
     html, body {
@@ -65,6 +67,8 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- MarkerCluster plugin -->
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
   <!-- PapaParse for CSV parsing -->
   <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
 
@@ -73,11 +77,14 @@
     const map = L.map('map').setView([20, 0], 2);
 
     // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-  }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Create a cluster group
+    const markers = L.markerClusterGroup();
 
     // Load labs.csv
     Papa.parse("labs.csv", {
@@ -86,7 +93,7 @@
       complete: function(results) {
         results.data.forEach(row => {
           if (row.Latitude && row.Longitude) {
-            const marker = L.marker([row.Latitude, row.Longitude]).addTo(map);
+            const marker = L.marker([row.Latitude, row.Longitude]);
             marker.bindPopup(`
               <b>${row["Lab Name"]}</b><br>
               Institution: ${row.Institution}<br>
@@ -94,8 +101,11 @@
               <a href="${row.Website}" target="_blank">Website</a><br>
               ${row.City}, ${row.Country}
             `);
+            markers.addLayer(marker);
           }
         });
+        // Add all clustered markers to the map
+        map.addLayer(markers);
       }
     });
   </script>
