@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Superconducting Quantum Labs Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
   <style>
     /* Make map fill the full viewport */
     html, body {
@@ -67,8 +65,8 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- MarkerCluster plugin -->
-  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <!-- OverlappingMarkerSpiderfier plugin -->
+  <script src="https://unpkg.com/overlapping-marker-spiderfier-leaflet/oms.min.js"></script>
   <!-- PapaParse for CSV parsing -->
   <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
 
@@ -83,8 +81,8 @@
       maxZoom: 19
     }).addTo(map);
 
-    // Create a cluster group
-    const markers = L.markerClusterGroup();
+    // Create spiderfier instance
+    const oms = new OverlappingMarkerSpiderfier(map);
 
     // Load labs.csv
     Papa.parse("labs.csv", {
@@ -101,11 +99,10 @@
               <a href="${row.Website}" target="_blank">Website</a><br>
               ${row.City}, ${row.Country}
             `);
-            markers.addLayer(marker);
+            marker.addTo(map);
+            oms.addMarker(marker); // add to spiderfier
           }
         });
-        // Add all clustered markers to the map
-        map.addLayer(markers);
       }
     });
   </script>
