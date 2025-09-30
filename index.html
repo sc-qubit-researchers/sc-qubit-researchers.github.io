@@ -5,6 +5,7 @@
   <title>Superconducting Quantum Labs Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    /* Make map fill the full viewport */
     html, body {
       height: 100%;
       margin: 0;
@@ -14,17 +15,19 @@
       height: 100%;
       width: 100%;
     }
+
+    /* Button overlays */
     .overlay-button {
       position: absolute;
-      bottom: 20px;
-      z-index: 1000;
+      bottom: 20px;  /* distance from bottom */
+      z-index: 1000; /* on top of map */
     }
     .submit-button {
       left: 50%;
       transform: translateX(-50%);
     }
     .download-button {
-      right: 20px;
+      right: 20px; /* place in bottom right corner */
     }
     .overlay-button button {
       padding: 12px 25px;
@@ -64,49 +67,34 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <!-- PapaParse for CSV parsing -->
   <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
-  <!-- Spiderfy library -->
-  <script src="https://cdn.jsdelivr.net/npm/overlapping-marker-spiderfier-leaflet@0.3.3/oms.min.js"></script>
 
   <script>
     // Initialize the map
     const map = L.map('map').setView([20, 0], 2);
 
-    // Add tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19
-    }).addTo(map);
+    // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
 
-    // Initialize Spiderfier
-    const oms = new OverlappingMarkerSpiderfier(map, {
-      keepSpiderfied: true
-    });
-
-    // Load CSV and add markers
+    // Load labs.csv
     Papa.parse("labs.csv", {
       download: true,
       header: true,
       complete: function(results) {
         results.data.forEach(row => {
-          const lat = parseFloat(row.Latitude);
-          const lon = parseFloat(row.Longitude);
-
-          if (isNaN(lat) || isNaN(lon)) {
-            console.warn("Skipping row, invalid coords:", row);
-            return;
+          if (row.Latitude && row.Longitude) {
+            const marker = L.marker([row.Latitude, row.Longitude]).addTo(map);
+            marker.bindPopup(`
+              <b>${row["Lab Name"]}</b><br>
+              Institution: ${row.Institution}<br>
+              PI: ${row.Supervisor}<br>
+              <a href="${row.Website}" target="_blank">Website</a><br>
+              ${row.City}, ${row.Country}
+            `);
           }
-
-          const marker = L.marker([lat, lon]);
-          marker.bindPopup(`
-            <b>${row["Lab Name"] || ""}</b><br>
-            Institution: ${row.Institution || ""}<br>
-            PI: ${row.Supervisor || ""}<br>
-            <a href="${row.Website}" target="_blank">Website</a><br>
-            ${row.City || ""}, ${row.Country || ""}
-          `);
-          marker.addTo(map);
-          oms.addMarker(marker);
         });
       }
     });
