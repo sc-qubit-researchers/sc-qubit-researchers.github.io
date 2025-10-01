@@ -2,6 +2,8 @@ name: "🧪 New Lab Submission"
 description: "Suggest a new superconducting quantum computing lab for the map."
 title: "[New Lab]"
 labels: ["new-lab"]
+assignees: 
+  - Sam-Bieberich
 
 body:
 
