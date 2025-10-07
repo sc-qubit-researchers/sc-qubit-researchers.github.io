@@ -2,46 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Superconducting Quantum Labs Map</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     /* Make map fill the full viewport */
     html, body {
       height: 100%;
       margin: 0;
-      font-family: sans-serif;
     }
     #map {
       height: 100%;
       width: 100%;
-    }
-
-    /* Button overlays */
-    .overlay-button {
-      position: absolute;
-      bottom: 20px;  /* distance from bottom */
-      z-index: 1000; /* on top of map */
-    }
-    .submit-button {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .download-button {
-      right: 20px; /* place in bottom right corner */
-    }
-    .overlay-button button {
-      padding: 12px 25px;
-      background: #2c7be5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      margin-left: 5px;
-    }
-    .overlay-button button:hover {
-      background: #1a5bb8;
     }
   </style>
 </head>
@@ -49,20 +22,25 @@
 
   <div id="map"></div>
 
-  <!-- Submit Lab Button -->
-  <div class="overlay-button submit-button">
-    <a href="https://github.com/sc-qubit-researchers/sc-qubit-researchers.github.io/issues/new?template=new_lab.yml" target="_blank">
-      <button>➕ Submit a New Lab</button>
-    </a>
+  <!-- Button Container -->
+  <div class="position-fixed bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-end" style="z-index: 1000; pointer-events: none;">
+    <!-- Submit Lab Button -->
+    <div class="flex-grow-1 d-flex justify-content-center">
+      <a href="https://github.com/sc-qubit-researchers/sc-qubit-researchers.github.io/issues/new?template=new_lab.yml" target="_blank" style="pointer-events: auto;">
+        <button type="button" class="btn btn-primary btn-lg shadow">➕ Submit a New Lab</button>
+      </a>
+    </div>
+    
+    <!-- Download CSV Button -->
+    <div style="pointer-events: auto;">
+      <a href="labs.csv" download>
+        <button type="button" class="btn btn-secondary btn-lg shadow">📥 Download CSV</button>
+      </a>
+    </div>
   </div>
 
-  <!-- Download CSV Button -->
-  <div class="overlay-button download-button">
-    <a href="labs.csv" download>
-      <button>📥 Download CSV</button>
-    </a>
-  </div>
-
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <!-- PapaParse for CSV parsing -->
