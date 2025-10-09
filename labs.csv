@@ -28,7 +28,7 @@ ETH Zurich, Quantum Device Lab, Andreas Wallraff, https://qudev.phys.ethz.ch/, Z
 TU Delft, DiCarlo Lab, Leonardo DiCarlo, https://qutech.nl/lab/dicarlo-lab-welcome/, Delft, Netherlands, 52.00222095867739, 4.37411840610502
 RIKEN, Superconducting Quantum Circuits Research Team, Jaw-Shen Tsai, https://www.riken.jp/en/research/labs/rqc/superconduct_qtm_sim/index.html, Wako, Japan, 35.78102745914096, 139.61329414859847
 Karlsruhe Institute of Technology, Working Group Superconducting Quantum Circuits, Alexey Ustinov, https://www.iqmt.kit.edu/english/1432.php, Karlsruhe, Germany, 49.01226040205355, 8.415505119757375
-Forschungszentrum Jülich, Superconducting Quantum Computing in Jülich & Aachen, https://funqs.de/, Jülich, Germany, 50.90337911935046, 6.421506668226929
+Forschungszentrum Jülich, Superconducting Quantum Computing in Jülich & Aachen, Rami Barends, https://funqs.de/, Jülich, Germany, 50.90337911935046, 6.421506668226929
 Institut Néel - CNRS Campus, Superconducting Quantum Circuits, Olivier Buisson, https://www.sqc.cnrs.fr/, Grenoble, France, 45.20355487807318, 5.700983100764469
 IQM, IQM Lab, Jan Goetz, https://meetiqm.com/, Espoo, Finland, 60.17919989884675, 24.837112888336772
 Aalto University, Quantum Computing and Devices, Mikko Möttönen, https://www.aalto.fi/en/people/mikko-mottonen, Espoo, Finland, 60.1861883909629, 24.827653682973832
@@ -36,4 +36,13 @@ IBM Quantum, IBM Quantum Yorktown Heights, Jay Gambetta, https://research.ibm.co
 University of Waterloo, Superconducting Quantum Devices Group, Adrian Lupascu, https://uwaterloo.ca/institute-for-quantum-computing/research/groups/superconducting-quantum-devices-group, Waterloo, Canada, 43.47597674221355, -80.54958561833286
 Analog Quantum Circuits, Analog Quantum Circuits, Tom Stace, https://www.aqcircuits.com/home, Brisbane, Australia, -27.471956491219682, 153.02060163610298
 University of Sydney, Superconducting Quantum Circuits Laboratory, Xanthe Croot, https://quantum.sydney.edu.au/research/superconducting-quantum-circuits-laboratory/, Sydney, Australia, -33.888005817077236, 151.18709324066208
-University of Queensland, Superconducting Quantum Devices Lab, Arkady Fedorov, https://www.sqdlab.org/, -27.500008666438415, 153.01501813086801 
+University of Queensland, Superconducting Quantum Devices Lab, Arkady Fedorov, https://www.sqdlab.org/, Queensland, Australia, -27.500008666438415, 153.01501813086801 
+Friedrich-Alexander-University, Eichler Lab, Christopher Eichler, https://www.quantum.nat.fau.de/, Erlangen, Germany, 49.580471273272984, 11.029825141324661
+IBM Research Superconducting Quantum Computing Lab, IBM Research Zurich, Stefan Fillip, https://www.wmi.badw.de/the-institute/team/stefan-filipp, Zurich, Switzerland, 47.31017710541475, 8.546030788080659
+Walther-Meißner-Institute, Gross Lab, Rudolf Gross, https://gross.userweb.mwn.de/Gross_english.html, Garching, Germany, 48.26431129266736, 11.675844324054406
+Walther-Meißner-Institute, Marx Lab, Achim Marx, https://www.wmi.badw.de/the-institute/team/achim-marx, Garching, Germany, 48.26341129266736, 11.675244324054406
+Technical University of Munich, Tornow Lab, Marc Tornow, https://www.ee.cit.tum.de/mol/research/quantum-technology/, Garching, Germany, 48.26553974897752, 11.6627515394001
+Peter Grünberg Institute for Functional Quantum Systems, Experimental Quantum Computing Group, Pavel Bushev, https://funqs.de/team/pbushev/, Jülich, Germany, 50.90237911935046, 6.421576668226929
+Peter Grünberg Institute for Functional Quantum Systems, Qubit Lab, Markus Jerger, https://funqs.de/team/mjerger/, Jülich, Germany, 50.90267911935046, 6.421276668226929
+
+
