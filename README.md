@@ -9,4 +9,4 @@ To be eligible to be added to this list, I am only including experimental superc
 
 I was originally inspired by [this](https://quantumoptics.at/en/links/ion-trapping-worldwide.html) from the University of Innsbruck Dept. of Physics. 
 
-Sam, Oct 2025
+- Sam, Oct 2025
